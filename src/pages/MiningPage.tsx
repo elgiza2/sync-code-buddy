@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { useApp } from "@/context/AppContext";
 import { Progress } from "@/components/ui/progress";
 import SpotlightHero from "@/components/hero/SpotlightHero";
-import MiningBoosters from "@/components/MiningBoosters";
 
 
 const TON_ICON = "/images/gram-icon.png";
@@ -82,7 +81,6 @@ const MiningPage = () => {
           ))}
         </motion.div>
 
-        <MiningBoosters />
       </div>
     </SpotlightHero>
   );
