@@ -85,33 +85,60 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const tg = (window as any).Telegram?.WebApp;
-    if (!tg) return;
+    const telegramLaunch = /Telegram/i.test(navigator.userAgent) || /tgWebApp/i.test(location.hash + location.search);
+    if (!telegramLaunch) return;
 
-    tg.ready();
-    tg.expand();
-    try { tg.requestFullscreen?.(); } catch {}
-    try { tg.disableVerticalSwipes?.(); } catch {}
-    try { tg.setBackgroundColor?.("#ffffff"); } catch {}
-    try { tg.setHeaderColor?.("#ffffff"); } catch {}
+    let disposed = false;
+    let cleanup = () => {};
+    const configureTelegram = () => {
+      if (disposed) return;
+      const tg = (window as any).Telegram?.WebApp;
+      if (!tg) return;
 
-    // Keep the app content clear of Telegram's own header / status bar.
-    const applyInsets = () => {
-      const top = Math.max(
-        Number(tg.contentSafeAreaInset?.top ?? 0),
-        Number(tg.safeAreaInset?.top ?? 0),
-        tg.isFullscreen ? 56 : 0,
-      );
-      document.documentElement.style.setProperty("--tg-safe-area-top", `${top}px`);
+      tg.ready();
+      tg.expand();
+      try { tg.requestFullscreen?.(); } catch {}
+      try { tg.disableVerticalSwipes?.(); } catch {}
+      try { tg.setBackgroundColor?.("#ffffff"); } catch {}
+      try { tg.setHeaderColor?.("#ffffff"); } catch {}
+
+      const applyInsets = () => {
+        const top = Math.max(
+          Number(tg.contentSafeAreaInset?.top ?? 0),
+          Number(tg.safeAreaInset?.top ?? 0),
+          tg.isFullscreen ? 56 : 0,
+        );
+        document.documentElement.style.setProperty("--tg-safe-area-top", `${top}px`);
+      };
+      applyInsets();
+      try { tg.onEvent?.("safeAreaChanged", applyInsets); } catch {}
+      try { tg.onEvent?.("contentSafeAreaChanged", applyInsets); } catch {}
+      try { tg.onEvent?.("fullscreenChanged", applyInsets); } catch {}
+      cleanup = () => {
+        try { tg.offEvent?.("safeAreaChanged", applyInsets); } catch {}
+        try { tg.offEvent?.("contentSafeAreaChanged", applyInsets); } catch {}
+        try { tg.offEvent?.("fullscreenChanged", applyInsets); } catch {}
+      };
     };
-    applyInsets();
-    try { tg.onEvent?.("safeAreaChanged", applyInsets); } catch {}
-    try { tg.onEvent?.("contentSafeAreaChanged", applyInsets); } catch {}
-    try { tg.onEvent?.("fullscreenChanged", applyInsets); } catch {}
+
+    const existing = document.querySelector<HTMLScriptElement>('script[data-nova-telegram-sdk]');
+    if ((window as any).Telegram?.WebApp) {
+      configureTelegram();
+    } else if (existing) {
+      existing.addEventListener("load", configureTelegram, { once: true });
+    } else {
+      const script = document.createElement("script");
+      script.src = "https://telegram.org/js/telegram-web-app.js";
+      script.async = true;
+      script.dataset.novaTelegramSdk = "true";
+      script.addEventListener("load", configureTelegram, { once: true });
+      document.head.appendChild(script);
+    }
+
     return () => {
-      try { tg.offEvent?.("safeAreaChanged", applyInsets); } catch {}
-      try { tg.offEvent?.("contentSafeAreaChanged", applyInsets); } catch {}
-      try { tg.offEvent?.("fullscreenChanged", applyInsets); } catch {}
+      disposed = true;
+      existing?.removeEventListener("load", configureTelegram);
+      cleanup();
     };
   }, []);
 

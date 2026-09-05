@@ -117,10 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://iqosbhbbyzqozfgpthyj.supabase.co", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://telegram.org" },
     ],
-    scripts: [
-      { src: "https://telegram.org/js/telegram-web-app.js" },
-      { children: 'window.ADSGRAM_BLOCK_ID = "43448";' },
-    ],
+    scripts: [{ children: 'window.ADSGRAM_BLOCK_ID = "43448";' }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

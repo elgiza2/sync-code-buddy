@@ -2,7 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 
 const CHANNEL_ID = -1002616088306;
 const BOT_USERNAME = "Noveaibot";
-const APP_URL = "https://sync-code-buddy-w8pw55.vercel.app/?v=20260905";
+const APP_URL = "https://t.me/Noveaibot/App";
 
 const topics = [
   { title: "Mine Gram & USDT every 8 hours", angle: "passive mining rewards" },
