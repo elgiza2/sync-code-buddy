@@ -40,10 +40,10 @@ const PrizeModal = () => {
   }, [user.profileId, sweep]);
 
   useEffect(() => {
-    if (!user.profileId || !reward || !expires) return;
+    if (!reward || !expires) return;
     if (new Date(expires).getTime() <= Date.now()) return;
     setOpen(true);
-  }, [user.profileId, reward, expires]);
+  }, [reward, expires]);
 
   useEffect(() => {
     if (!expires) return;
