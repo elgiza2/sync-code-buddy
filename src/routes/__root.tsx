@@ -19,7 +19,6 @@ import BottomNav from "@/components/BottomNav";
 import PrizeModal from "@/components/PrizeModal";
 import StarryBackground from "@/components/StarryBackground";
 import { resolveTonManifestUrl } from "@/lib/tonconnect-manifest";
-import "@/lib/buffer-polyfill";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
