@@ -7,21 +7,23 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 
+// Only polyfill Buffer in the browser bundle. The server (Cloudflare/nitro)
+// already provides node:buffer, and polyfilling it there breaks the build.
+const browserPolyfills = [
+  nodePolyfills({
+    globals: { Buffer: true, global: true, process: false },
+    include: ["buffer"],
+  }),
+]
+  .flat()
+  .map((plugin) => ({
+    ...plugin,
+    applyToEnvironment: (env: { name: string }) => env.name === "client",
+  }));
+
 export default defineConfig({
   vite: {
-    plugins: [
-      nodePolyfills({
-        globals: {
-          Buffer: true,
-          global: true,
-          process: false,
-        },
-        include: ["buffer"],
-      }),
-    ],
-    define: {
-      global: "globalThis",
-    },
+    plugins: [browserPolyfills],
     optimizeDeps: {
       include: ["buffer"],
     },
