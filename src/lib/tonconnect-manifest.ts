@@ -1,5 +1,5 @@
 const PUBLIC_MANIFEST_ENDPOINT =
-  "https://ltgampdtawuefwwayncx.supabase.co/functions/v1/tonconnect-manifest";
+  "https://iqosbhbbyzqozfgpthyj.supabase.co/functions/v1/tonconnect-manifest";
 
 // Origin baked in at build time (see vite.config.ts). The static manifest in
 // dist/ is generated for exactly this origin.

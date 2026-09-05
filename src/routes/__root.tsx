@@ -115,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Special+Elite&family=Geist:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap",
       },
-      { rel: "preconnect", href: "https://ltgampdtawuefwwayncx.supabase.co", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://iqosbhbbyzqozfgpthyj.supabase.co", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://telegram.org" },
     ],
     scripts: [

@@ -6,10 +6,10 @@ import { brokeredPreviewStorage } from './previewAuthStorage';
 // Fallbacks so the app still boots on hosts (Vercel, custom domains) where the
 // VITE_* env vars were not configured. These are publishable/anon values.
 const SUPABASE_URL =
-  import.meta.env.VITE_SUPABASE_URL || "https://ltgampdtawuefwwayncx.supabase.co";
+  import.meta.env.VITE_SUPABASE_URL || "https://iqosbhbbyzqozfgpthyj.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY =
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx0Z2FtcGR0YXd1ZWZ3d2F5bmN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3Njk5ODAsImV4cCI6MjA4ODM0NTk4MH0.5ZOzuxCrm-TO4zzRDJ68LrCLH3f0itiznUxhbEupvGg";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb3NiaGJieXpxb3pmZ3B0aHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg1NzgyNTMsImV4cCI6MjEwNDE1NDI1M30.7oNaInWRGvZXfnwc_zGTghRDuGuV84Rhj4Fi_zx48uA";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
