@@ -117,7 +117,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://iqosbhbbyzqozfgpthyj.supabase.co", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://telegram.org" },
     ],
-    scripts: [{ children: 'window.ADSGRAM_BLOCK_ID = "43448";' }],
+    scripts: [
+      // TON evaluates Buffer-dependent modules as soon as the application bundle
+      // loads. Keep this classic script outside Vite's module graph so it always
+      // runs before the module scripts, including in split production builds.
+      { src: "/buffer-polyfill.js" },
+      { children: 'window.ADSGRAM_BLOCK_ID = "43448";' },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
