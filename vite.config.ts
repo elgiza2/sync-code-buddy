@@ -5,25 +5,11 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
 
-// Only polyfill Buffer in the browser bundle. The server (Cloudflare/nitro)
-// already provides node:buffer, and polyfilling it there breaks the build.
-const browserPolyfills = [
-  nodePolyfills({
-    globals: { Buffer: true, global: true, process: false },
-    include: ["buffer"],
-  }),
-]
-  .flat()
-  .map((plugin) => ({
-    ...plugin,
-    applyToEnvironment: (env: { name: string }) => env.name === "client",
-  }));
-
+// Buffer is provided in the browser by src/lib/buffer-polyfill.ts, which runs
+// before any TON code. The server runtime has node:buffer natively.
 export default defineConfig({
   vite: {
-    plugins: [browserPolyfills],
     optimizeDeps: {
       include: ["buffer"],
     },
