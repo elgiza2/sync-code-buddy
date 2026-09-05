@@ -1,3 +1,4 @@
+import { SUPABASE_PROJECT_ID, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase-config";
 import { supabase } from "@/integrations/supabase/client";
 
 type RpcParams = Record<string, unknown>;
@@ -240,12 +241,12 @@ export const verifyTonOnChain = async (
   boc: string,
   sender?: string | null,
 ): Promise<{ verified: boolean; tx_hash?: string; error?: string }> => {
-  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+  const projectId = SUPABASE_PROJECT_ID;
   const res = await fetch(`https://${projectId}.supabase.co/functions/v1/verify-ton-transaction`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      "Authorization": `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
     },
     body: JSON.stringify({ intent_id: intentId, boc: boc || null, sender: sender ?? null }),
   });

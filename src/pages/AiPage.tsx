@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { useApp } from "@/context/AppContext";
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase-config";
 import { supabase } from "@/integrations/supabase/client";
 import { payWithStars, STARS_PRICES } from "@/lib/stars";
 import { PaymentError, sendTonPayment } from "@/lib/ton";
@@ -65,8 +66,8 @@ const MODES: { id: Mode; label: string; icon: typeof MessageCircle; placeholder:
   { id: "videos", label: "Videos", icon: Video, placeholder: "Describe the video to create…" },
 ];
 
-const BASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const BASE_URL = SUPABASE_URL;
+const ANON_KEY = SUPABASE_PUBLISHABLE_KEY;
 const CHAT_URL = `${BASE_URL}/functions/v1/chat-alibaba`;
 const MEDIA_URL = `${BASE_URL}/functions/v1/ai-deapi`;
 
