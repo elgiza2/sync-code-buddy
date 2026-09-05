@@ -9,11 +9,6 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Buffer is provided in the browser by src/lib/buffer-polyfill.ts, which runs
 // before any TON code. The server runtime has node:buffer natively.
 export default defineConfig({
-  vite: {
-    optimizeDeps: {
-      include: ["buffer"],
-    },
-  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
