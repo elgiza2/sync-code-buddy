@@ -73,68 +73,62 @@ const PrizeModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] left-1/2 right-auto top-auto z-[1001] flex max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-[440px] -translate-x-1/2 translate-y-0 items-end justify-center overflow-hidden rounded-[36px] border-0 bg-transparent p-0 shadow-none sm:bottom-auto sm:left-1/2 sm:right-auto sm:top-1/2 sm:max-h-[calc(100dvh-2rem)] sm:w-[calc(100%-2rem)] sm:max-w-[420px] sm:-translate-x-1/2 sm:-translate-y-1/2">
+      <DialogContent className="fixed bottom-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] left-1/2 right-auto top-auto z-[1001] block max-h-[calc(100dvh-1rem)] w-[calc(100%-1rem)] max-w-[440px] -translate-x-1/2 translate-y-0 overflow-hidden rounded-[28px] border border-foreground/15 bg-background p-0 shadow-2xl sm:bottom-auto sm:top-1/2 sm:w-[calc(100%-2rem)] sm:max-w-[420px] sm:-translate-y-1/2 [&>button]:z-30 [&>button]:text-foreground">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="relative max-h-[calc(100dvh-1rem)] w-full overflow-y-auto overflow-x-hidden rounded-[36px] bg-[hsl(var(--card)/0.92)] px-5 pb-5 pt-7 text-center backdrop-blur-[36px] saturate-[180%] [-ms-overflow-style:none] [scrollbar-width:none] sm:max-h-[calc(100dvh-2rem)] sm:px-6 sm:pb-6 sm:pt-8 [@media(max-height:700px)]:pb-4 [@media(max-height:700px)]:pt-5"
-          style={{
-            border: "1px solid hsl(0 0% 100% / 0.14)",
-            boxShadow:
-              "0 -30px 70px -24px rgba(0,0,0,0.65), inset 0 1px 0 hsl(0 0% 100% / 0.12)",
-          }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="relative min-h-[min(680px,calc(100dvh-1rem))] w-full overflow-hidden bg-background text-center sm:min-h-[min(700px,calc(100dvh-2rem))]"
         >
-          <div
-            className="pointer-events-none absolute inset-0 -z-10"
-            style={{
-              background:
-                "radial-gradient(120% 80% at 15% 0%, hsl(var(--primary) / 0.28) 0%, transparent 55%), radial-gradient(110% 80% at 95% 10%, hsl(var(--accent) / 0.22) 0%, transparent 55%), hsl(var(--background))",
-            }}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260819_212700_3bb9329b-5c50-4257-a09b-ca85cf3654a3.mp4"
           />
 
-          {/* Top sheen */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-28 opacity-50"
-            style={{
-              background:
-                "linear-gradient(180deg, hsl(var(--primary) / 0.22) 0%, hsl(var(--accent) / 0.10) 45%, transparent 100%)",
-            }}
-          />
-
-          <div className="relative z-10">
-            <h2 className="mt-1 text-[clamp(20px,5.5vw,26px)] font-display font-medium leading-none text-foreground">{displayName}</h2>
-
-            <p className="mt-1.5 text-[clamp(11px,3vw,12px)] text-muted-foreground">
-              You won the{" "}
-              <span className="text-[clamp(14px,4vw,16px)] font-display font-medium text-gradient-primary">
-                Grand Prize
-              </span>
-            </p>
-
-            <div className="mt-4 flex flex-col items-center gap-2">
-              <p className="text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
-                In partnership with
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <img src={logoGoogle} alt="Google logo" className="h-5 w-5" loading="lazy" />
-                <span className="text-[13px] font-display font-medium text-foreground">Google</span>
-                <span className="h-4 w-px bg-border" aria-hidden="true" />
-                <img src={logoAlibaba} alt="Alibaba logo" className="h-5 w-5" loading="lazy" />
-                <span className="text-[13px] font-display font-medium text-foreground">Alibaba</span>
-              </div>
-            </div>
-
-            <div className="mt-4 rounded-[22px] border border-border bg-[hsl(0_0%_100%/0.06)] px-4 py-4 backdrop-blur-md sm:px-5 sm:py-5 [@media(max-height:700px)]:py-3">
-              <p className="text-[clamp(32px,10vw,44px)] font-display font-medium leading-none tracking-tight text-gradient-primary [@media(max-height:700px)]:text-[30px]">
+          <div className="relative z-10 flex min-h-[min(680px,calc(100dvh-1rem))] flex-col justify-between px-5 pb-5 pt-16 sm:min-h-[min(700px,calc(100dvh-2rem))] sm:px-7 sm:pb-7">
+            <div>
+              <motion.p
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="text-xs font-medium uppercase text-foreground/70"
+              >
+                A private reward for {displayName}
+              </motion.p>
+              <motion.h2
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="font-instrument mt-3 text-[3.65rem] font-normal leading-[0.86] text-foreground sm:text-[4.25rem]"
+              >
                 ${reward.toLocaleString("en-US")}
-              </p>
-              <p className="mt-1.5 text-[clamp(9px,2.6vw,11px)] tracking-[0.18em] uppercase text-muted-foreground">USDT credited</p>
+                <span className="mt-2 block text-[2rem] italic leading-none sm:text-[2.35rem]">is now yours</span>
+              </motion.h2>
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="mt-5 flex items-center justify-center gap-3 text-xs text-foreground/80"
+              >
+                <span>Presented with</span>
+                <img src={logoGoogle} alt="Google" className="h-4 w-4" />
+                <span className="h-3 w-px bg-foreground/30" aria-hidden="true" />
+                <img src={logoAlibaba} alt="Alibaba" className="h-4 w-4" />
+              </motion.div>
             </div>
 
-            <div className="mt-2.5 rounded-[22px] border border-border bg-[hsl(0_0%_100%/0.06)] px-3 py-3 backdrop-blur-md sm:mt-3 sm:px-5 sm:py-4 [@media(max-height:700px)]:py-2.5">
-              <p className="text-[clamp(9px,2.4vw,10px)] uppercase tracking-[0.24em] text-muted-foreground">Expires in</p>
-              <div className="mt-2 flex items-end justify-center gap-2 sm:gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="mb-3 text-xs text-foreground/70">Claim before your private window closes</p>
+              <div className="grid grid-cols-3 gap-2">
                 {[
                   { v: parts.h, l: "hours" },
                   { v: parts.m, l: "minutes" },
@@ -142,38 +136,28 @@ const PrizeModal = () => {
                 ].map((seg) => (
                   <div
                     key={seg.l}
-                    className="flex flex-1 flex-col items-center rounded-2xl bg-secondary/70 px-2 py-2.5 sm:px-3"
+                    className="border border-foreground/20 bg-background/45 px-2 py-3 backdrop-blur-md"
                   >
-                    <p className="text-[clamp(24px,7.5vw,32px)] font-display font-medium leading-none text-foreground tabular-nums">
+                    <p className="font-instrument text-3xl leading-none text-foreground tabular-nums">
                       {seg.v}
                     </p>
-                    <p className="mt-1 text-[clamp(8px,2.2vw,9px)] uppercase tracking-[0.16em] text-muted-foreground">{seg.l}</p>
+                    <p className="mt-1 text-[9px] uppercase text-foreground/60">{seg.l}</p>
                   </div>
                 ))}
               </div>
-            </div>
-
-            <p className="mt-3 text-[clamp(10px,2.8vw,11px)] leading-relaxed text-muted-foreground sm:mt-4 [@media(max-height:700px)]:mt-2">
-              Withdraw within 48 hours. After the countdown ends, the reward is removed from your account
-              automatically.
-
-            </p>
-
-            <Button
-              onClick={() => {
-                setOpen(false);
-                navigate({ to: "/wallet" });
-              }}
-              className="mt-4 h-11 w-full rounded-2xl font-display text-[14px] font-medium glow-primary sm:mt-5"
-            >
-              Go to Wallet
-            </Button>
-            <button
-              onClick={() => setOpen(false)}
-              className="mt-2 text-[10px] uppercase tracking-[0.22em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              Later
-            </button>
+              <Button
+                onClick={() => {
+                  setOpen(false);
+                  navigate({ to: "/wallet" });
+                }}
+                className="mt-4 h-12 w-full bg-foreground text-sm font-medium text-background hover:bg-foreground/90"
+              >
+                Claim in wallet
+              </Button>
+              <Button variant="ghost" onClick={() => setOpen(false)} className="mt-1 h-9 w-full text-xs text-foreground/70">
+                Maybe later
+              </Button>
+            </motion.div>
           </div>
         </motion.div>
       </DialogContent>

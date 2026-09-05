@@ -114,6 +114,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Special+Elite&family=Geist:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap",
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap",
+      },
       { rel: "preconnect", href: "https://iqosbhbbyzqozfgpthyj.supabase.co", crossOrigin: "anonymous" },
       { rel: "preconnect", href: "https://telegram.org" },
     ],
@@ -122,7 +126,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       // loads. Keep this classic script outside Vite's module graph so it always
       // runs before the module scripts, including in split production builds.
       { src: "/buffer-polyfill.js" },
-      { children: 'window.ADSGRAM_BLOCK_ID = "43448";' },
     ],
   }),
   shellComponent: RootShell,
