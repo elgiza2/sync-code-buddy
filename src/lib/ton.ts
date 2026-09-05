@@ -1,3 +1,4 @@
+import { SUPABASE_PROJECT_ID, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase-config";
 import type { TonConnectUI } from "@tonconnect/ui-react";
 import { beginCell } from "@ton/core";
 import { supabase } from "@/integrations/supabase/client";

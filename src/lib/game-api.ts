@@ -1,3 +1,4 @@
+import { SUPABASE_PROJECT_ID, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase-config";
 import { supabase } from "@/integrations/supabase/client";
 
 type RpcParams = Record<string, unknown>;

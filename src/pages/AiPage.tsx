@@ -65,8 +65,8 @@ const MODES: { id: Mode; label: string; icon: typeof MessageCircle; placeholder:
   { id: "videos", label: "Videos", icon: Video, placeholder: "Describe the video to create…" },
 ];
 
-const BASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
-const ANON_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
+const BASE_URL = SUPABASE_URL;
+const ANON_KEY = SUPABASE_PUBLISHABLE_KEY;
 const CHAT_URL = `${BASE_URL}/functions/v1/chat-alibaba`;
 const MEDIA_URL = `${BASE_URL}/functions/v1/ai-deapi`;
 
