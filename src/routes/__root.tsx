@@ -9,7 +9,7 @@ import {
   Scripts,
   ClientOnly,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
@@ -146,8 +146,14 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [tonReady, setTonReady] = useState(false);
 
   useEffect(() => {
+    // TON Connect touches browser-only APIs and can keep the SSR stream open
+    // when it is initialized during the first hydration render. Mount it on
+    // the client after hydration so the app can render independently of the
+    // wallet manifest/network state.
+    setTonReady(true);
     // Client-only startup tasks from the original entry point.
     Promise.all([import("@/lib/protect"), import("@/lib/perf")]).then(([protectMod, perfMod]) => {
       protectMod.installProtection();
@@ -174,24 +180,28 @@ function RootComponent() {
           <div className="min-h-screen" style={{ backgroundColor: "hsl(160 16% 6%)" }} />
         }
       >
-        <TonConnectUIProvider
-          manifestUrl={resolveTonManifestUrl()}
-          restoreConnection={true}
-          actionsConfiguration={{ returnStrategy: "back" }}
-        >
-          <TooltipProvider>
-            <Sonner position="top-center" />
-            <Toaster />
-            <AppProvider>
-              <StarryBackground />
-              <PrizeModal />
-              <div className="max-w-lg mx-auto relative z-10">
-                <Outlet />
-                <BottomNav />
-              </div>
-            </AppProvider>
-          </TooltipProvider>
-        </TonConnectUIProvider>
+        {tonReady ? (
+          <TonConnectUIProvider
+            manifestUrl={resolveTonManifestUrl()}
+            restoreConnection={true}
+            actionsConfiguration={{ returnStrategy: "back" }}
+          >
+            <TooltipProvider>
+              <Sonner position="top-center" />
+              <Toaster />
+              <AppProvider>
+                <StarryBackground />
+                <PrizeModal />
+                <div className="max-w-lg mx-auto relative z-10">
+                  <Outlet />
+                  <BottomNav />
+                </div>
+              </AppProvider>
+            </TooltipProvider>
+          </TonConnectUIProvider>
+        ) : (
+          <div className="min-h-screen" style={{ backgroundColor: "hsl(160 16% 6%)" }} />
+        )}
       </ClientOnly>
     </QueryClientProvider>
   );
