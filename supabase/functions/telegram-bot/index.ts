@@ -2,9 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { buildNotification, totalVariants, type NotificationTopic } from "../_shared/notification-texts.ts";
 
-// Use the deployed app directly. The BotFather short-app URL can keep serving
-// an older cached domain, so every bot-owned entry point must bypass it.
-const APP_URL = "https://sync-code-buddy-w8pw55.vercel.app/?v=20260905";
+const APP_URL = "https://t.me/Noveaibot/App";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -680,7 +678,7 @@ serve(async (req) => {
 
         const welcomeMarkup = {
           inline_keyboard: [
-            [{ text: 'Open Nova AI', web_app: { url: APP_URL } }],
+            [{ text: 'Open Nova AI', url: APP_URL }],
             [{ text: 'Join Community', url: 'https://t.me/noveall' }],
           ]
         };
