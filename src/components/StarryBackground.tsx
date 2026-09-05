@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 
-const bgVideoMp4 = "/bg-loop.mp4";
+const bgVideoMp4 =
+  "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260813_092641_de52eb87-daf2-41db-92cb-7a56eae012a5.mp4";
 
 /** Global video background shared by every page. */
 const StarryBackground = () => {
