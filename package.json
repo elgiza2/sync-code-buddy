@@ -2,8 +2,6 @@
   "name": "tanstack_start_ts",
   "private": true,
   "sideEffects": [
-    "src/lib/buffer-polyfill.ts",
-    "src/router.tsx",
     "**/*.css"
   ],
   "type": "module",
