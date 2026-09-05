@@ -80,6 +80,7 @@ const writeCache = (user: TelegramUserInfo) => {
 };
 
 export const isInsideTelegram = (): boolean => {
+  if (typeof window === "undefined") return false;
   const tg = (window as any).Telegram?.WebApp;
   if (tg?.initData || tg?.initDataUnsafe?.user) return true;
   if (/Telegram/i.test(navigator.userAgent)) return true;
@@ -88,6 +89,7 @@ export const isInsideTelegram = (): boolean => {
 
 /** Reads the real Telegram user from any available source. */
 export const readTelegramUser = (): TelegramUserInfo | null => {
+  if (typeof window === "undefined") return null;
   const tg = (window as any).Telegram?.WebApp;
   return (
     normalize(tg?.initDataUnsafe?.user) ??
