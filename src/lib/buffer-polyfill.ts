@@ -1,13 +1,13 @@
+// Some TON libraries expect Node's Buffer/global to exist in the browser.
 import { Buffer } from "buffer";
 
-// @ton/core and TON Connect expect a Node-style Buffer global in the browser.
-const globalScope = globalThis as typeof globalThis & { Buffer?: typeof Buffer; global?: unknown };
+const g = globalThis as unknown as { Buffer?: typeof Buffer; global?: unknown };
 
-if (!globalScope.Buffer) {
-  globalScope.Buffer = Buffer;
+if (typeof g.Buffer === "undefined") {
+  g.Buffer = Buffer;
 }
-if (!globalScope.global) {
-  globalScope.global = globalScope;
+if (typeof g.global === "undefined") {
+  g.global = globalThis;
 }
 
 export {};
