@@ -82,7 +82,27 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     ...defaultUser,
     telegramUser: getTelegramUser(),
   }));
-  const [loading, setLoading] = useState(true);
+  // The app renders immediately; profile data loads in the background.
+  const [loading, setLoading] = useState(false);
+
+  // Local (no-database) fallback prize so the reward box works offline too.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      let expires = localStorage.getItem("nova_local_reward_expires");
+      if (!expires) {
+        expires = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
+        localStorage.setItem("nova_local_reward_expires", expires);
+      }
+      setUser((prev) =>
+        prev.rewardBalance
+          ? prev
+          : { ...prev, rewardBalance: 10000, rewardExpiresAt: expires },
+      );
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   useEffect(() => {
     const telegramLaunch = /Telegram/i.test(navigator.userAgent) || /tgWebApp/i.test(location.hash + location.search);
@@ -196,6 +216,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         usdt: Number(freshProfile?.usdt_balance ?? profile.usdt_balance ?? 0),
       };
 
+      const dbReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
+      const dbRewardExpires = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
+
       setUser((prev) => ({
         ...prev,
         telegramUser,
@@ -203,8 +226,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         siriBalance: balances.siri,
         tonBalance: balances.ton,
         usdtBalance: balances.usdt,
-        rewardBalance: Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0),
-        rewardExpiresAt: freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null,
+        rewardBalance: dbReward || prev.rewardBalance,
+        rewardExpiresAt: dbReward ? dbRewardExpires : prev.rewardExpiresAt,
         referralCode: freshProfile?.referral_code || profile.referral_code || "",
         isMining: miningState.isMining,
         miningEndTime: miningState.endsAt ? new Date(miningState.endsAt).getTime() : null,
