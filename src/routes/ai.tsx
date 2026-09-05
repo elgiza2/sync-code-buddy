@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import Page from "@/pages/AiPage";
+import Page from "@/pages/GamesPage";
 
 export const Route = createFileRoute("/ai")({
   component: Page,
   head: () => ({
     meta: [
-      { title: "Nova AI Assistant - Chat & Create" },
-      { name: "description", content: "Chat with Nova AI, generate images and unlock AI tools inside Nova." },
-      { property: "og:title", content: "Nova AI Assistant - Chat & Create" },
-      { property: "og:description", content: "Chat with Nova AI, generate images and unlock AI tools inside Nova." },
+      { title: "Nova AI Games - Play Crash & Earn Gram" },
+      { name: "description", content: "Play Crash and other games in Nova AI and win Gram." },
+      { property: "og:title", content: "Nova AI Games - Play Crash & Earn Gram" },
+      { property: "og:description", content: "Play Crash and other games in Nova AI and win Gram." },
     ],
   }),
 });
