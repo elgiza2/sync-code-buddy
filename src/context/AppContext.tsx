@@ -194,6 +194,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         console.warn("Fresh profile fetch failed:", e);
       }
 
+      // The welcome prize lives in the database, never in local storage.
+      const currentReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
+      const currentExpiry = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
+      const rewardStale = !currentReward || (currentExpiry && new Date(currentExpiry).getTime() <= Date.now());
+      if (rewardStale) {
+        try {
+          await withTimeout(grantWelcomePrizeForTelegram(telegramUser.id), 8000);
+          freshProfile = (await withTimeout(fetchOwnProfile(telegramUser.id), 8000)) ?? freshProfile;
+        } catch (e) {
+          console.warn("Welcome prize grant failed:", e);
+        }
+      }
+
       const balances = miningState.balances ?? {
         siri: Number(freshProfile?.siri_balance ?? profile.siri_balance ?? 0),
         ton: Number(freshProfile?.ton_balance ?? profile.ton_balance ?? 0),
@@ -202,6 +215,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
       const dbReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
       const dbRewardExpires = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
+
 
       setUser((prev) => ({
         ...prev,
