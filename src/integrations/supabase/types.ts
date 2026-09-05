@@ -1523,7 +1523,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      __exec_sql: { Args: { sql: string }; Returns: undefined }
       ad_watch_claim:
         | { Args: { _telegram_id: number }; Returns: Json }
         | { Args: { _telegram_id: number; _tier?: string }; Returns: Json }
