@@ -1,7 +1,11 @@
 {
   "name": "tanstack_start_ts",
   "private": true,
-  "sideEffects": false,
+  "sideEffects": [
+    "src/lib/buffer-polyfill.ts",
+    "src/router.tsx",
+    "**/*.css"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite dev",
@@ -81,7 +85,6 @@
   "devDependencies": {
     "@eslint/js": "^9.32.0",
     "@lovable.dev/vite-tanstack-config": "^2.20.0",
-    "@rollup/plugin-inject": "^5.0.5",
     "@types/node": "^22.16.5",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

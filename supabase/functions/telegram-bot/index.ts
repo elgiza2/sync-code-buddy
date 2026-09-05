@@ -2,6 +2,10 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { buildNotification, totalVariants, type NotificationTopic } from "../_shared/notification-texts.ts";
 
+// Use the deployed app directly. The BotFather short-app URL can keep serving
+// an older cached domain, so every bot-owned entry point must bypass it.
+const APP_URL = "https://sync-code-buddy-w8pw55.vercel.app/?v=20260905";
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
@@ -676,7 +680,7 @@ serve(async (req) => {
 
         const welcomeMarkup = {
           inline_keyboard: [
-            [{ text: 'Open Nova AI', url: 'https://t.me/Noveaibot/App' }],
+            [{ text: 'Open Nova AI', web_app: { url: APP_URL } }],
             [{ text: 'Join Community', url: 'https://t.me/noveall' }],
           ]
         };
@@ -784,7 +788,6 @@ serve(async (req) => {
                   ? Math.abs(Math.floor(body.variant)) % CAPTIONS.length
                   : Math.floor(Date.now() / (4 * 60 * 60 * 1000)) % CAPTIONS.length
               ];
-        const APP_URL = 'https://t.me/Noveaibot/App';
         const markup = { inline_keyboard: [[{ text: 'Claim $10,000 Prize', url: APP_URL }]] };
 
         let targets: number[] = [];
@@ -877,8 +880,6 @@ serve(async (req) => {
 
 // ── Automated 4-hour notifications ──────────────────────────────────────────
 const COOLDOWN_HOURS = 4;
-const APP_URL = "https://nova.megsyai.com";
-
 async function runAutoNotifications(supabase: any, BASE_URL: string) {
   const nowIso = new Date().toISOString();
   const cooldownIso = new Date(Date.now() - COOLDOWN_HOURS * 3600_000).toISOString();
@@ -916,7 +917,7 @@ async function runAutoNotifications(supabase: any, BASE_URL: string) {
       const topic: NotificationTopic = mining.has(p.id) ? "ai" : Math.random() < 0.7 ? "mining" : "ai";
       const text = buildNotification(topic, p.first_name);
       const buttonText = topic === "mining" ? "Start Mining" : "Open Nova AI";
-      const url = "https://t.me/Noveaibot/App";
+      const url = APP_URL;
       try {
         const res = await fetch(`${BASE_URL}/sendMessage`, {
           method: "POST",
@@ -969,7 +970,7 @@ export const prizeCaption = (name: string) => {
 
 
 const prizeMarkup = {
-  inline_keyboard: [[{ text: '🎁 Claim my $10,000', url: 'https://t.me/Noveaibot/App' }]],
+  inline_keyboard: [[{ text: '🎁 Claim my $10,000', url: APP_URL }]],
 };
 
 async function sendPrizeMessage(baseUrl: string, chatId: number, name: string) {
