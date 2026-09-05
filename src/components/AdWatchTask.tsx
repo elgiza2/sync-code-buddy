@@ -56,6 +56,14 @@ const AdWatchTask = () => {
       if (res?.success) {
         setWatched(res.adsWatched ?? 0);
         setWatchedB(res.adsWatchedB ?? 0);
+      } else {
+        setWatched(res?.adsWatched ?? watched);
+        setWatchedB(res?.adsWatchedB ?? watchedB);
+        toast({
+          title: "Not counted",
+          description: "Please wait a few seconds between ads",
+          variant: "destructive",
+        });
       }
     } catch {
       toast({ title: "Ad failed", description: "Please try again", variant: "destructive" });

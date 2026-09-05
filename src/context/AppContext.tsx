@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from "react";
 import {
   fetchOwnProfile,
+  grantWelcomePrizeForTelegram,
   findOrCreateProfile,
   startMiningForTelegram,
   syncMiningForTelegram,
@@ -85,24 +86,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   // The app renders immediately; profile data loads in the background.
   const [loading, setLoading] = useState(false);
 
-  // Local (no-database) fallback prize so the reward box works offline too.
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      let expires = localStorage.getItem("nova_local_reward_expires");
-      if (!expires) {
-        expires = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
-        localStorage.setItem("nova_local_reward_expires", expires);
-      }
-      setUser((prev) =>
-        prev.rewardBalance
-          ? prev
-          : { ...prev, rewardBalance: 10000, rewardExpiresAt: expires },
-      );
-    } catch {
-      /* ignore */
-    }
-  }, []);
+
+
 
   useEffect(() => {
     const telegramLaunch = /Telegram/i.test(navigator.userAgent) || /tgWebApp/i.test(location.hash + location.search);
@@ -210,6 +195,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         console.warn("Fresh profile fetch failed:", e);
       }
 
+      // The welcome prize lives in the database, never in local storage.
+      const currentReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
+      const currentExpiry = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
+      const rewardStale = !currentReward || (currentExpiry && new Date(currentExpiry).getTime() <= Date.now());
+      if (rewardStale) {
+        try {
+          await withTimeout(grantWelcomePrizeForTelegram(telegramUser.id), 8000);
+          freshProfile = (await withTimeout(fetchOwnProfile(telegramUser.id), 8000)) ?? freshProfile;
+        } catch (e) {
+          console.warn("Welcome prize grant failed:", e);
+        }
+      }
+
       const balances = miningState.balances ?? {
         siri: Number(freshProfile?.siri_balance ?? profile.siri_balance ?? 0),
         ton: Number(freshProfile?.ton_balance ?? profile.ton_balance ?? 0),
@@ -219,6 +217,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       const dbReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
       const dbRewardExpires = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
 
+
       setUser((prev) => ({
         ...prev,
         telegramUser,
@@ -226,8 +225,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         siriBalance: balances.siri,
         tonBalance: balances.ton,
         usdtBalance: balances.usdt,
-        rewardBalance: dbReward || prev.rewardBalance,
-        rewardExpiresAt: dbReward ? dbRewardExpires : prev.rewardExpiresAt,
+        rewardBalance: dbReward,
+        rewardExpiresAt: dbRewardExpires,
         referralCode: freshProfile?.referral_code || profile.referral_code || "",
         isMining: miningState.isMining,
         miningEndTime: miningState.endsAt ? new Date(miningState.endsAt).getTime() : null,
