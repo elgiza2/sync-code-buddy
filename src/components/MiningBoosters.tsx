@@ -14,6 +14,7 @@ const packageKey = (kind: BoostKind) => `mining_boost_${kind}`;
 const storageKey = (id: number | string, kind: BoostKind) => `nova-boost-${kind}-${id}`;
 
 const readLevel = (id: number | string, kind: BoostKind) => {
+  if (typeof window === "undefined") return 0;
   const raw = Number(localStorage.getItem(storageKey(id, kind)) ?? 0);
   return Number.isFinite(raw) && raw > 0 ? raw : 0;
 };

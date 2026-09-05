@@ -10,6 +10,7 @@ import {
   ClientOnly,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { TonConnectUIProvider } from "@tonconnect/ui-react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -17,6 +18,7 @@ import { AppProvider } from "@/context/AppContext";
 import BottomNav from "@/components/BottomNav";
 import PrizeModal from "@/components/PrizeModal";
 import StarryBackground from "@/components/StarryBackground";
+import { resolveTonManifestUrl } from "@/lib/tonconnect-manifest";
 import "@/lib/buffer-polyfill";
 
 import appCss from "../styles.css?url";
@@ -172,18 +174,24 @@ function RootComponent() {
           <div className="min-h-screen" style={{ backgroundColor: "hsl(160 16% 6%)" }} />
         }
       >
-        <TooltipProvider>
-          <Sonner position="top-center" />
-          <Toaster />
-          <AppProvider>
-            <StarryBackground />
-            <PrizeModal />
-            <div className="max-w-lg mx-auto relative z-10">
-              <Outlet />
-              <BottomNav />
-            </div>
-          </AppProvider>
-        </TooltipProvider>
+        <TonConnectUIProvider
+          manifestUrl={resolveTonManifestUrl()}
+          restoreConnection={true}
+          actionsConfiguration={{ returnStrategy: "back" }}
+        >
+          <TooltipProvider>
+            <Sonner position="top-center" />
+            <Toaster />
+            <AppProvider>
+              <StarryBackground />
+              <PrizeModal />
+              <div className="max-w-lg mx-auto relative z-10">
+                <Outlet />
+                <BottomNav />
+              </div>
+            </AppProvider>
+          </TooltipProvider>
+        </TonConnectUIProvider>
       </ClientOnly>
     </QueryClientProvider>
   );
