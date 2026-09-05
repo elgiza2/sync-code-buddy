@@ -177,7 +177,7 @@ export const sendTonPayment = async (
 
 /** Polls the backend, which checks the treasury wallet on-chain for this memo. */
 const waitForIntentOnChain = async (intentId: string, sender?: string | null) => {
-  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+  const projectId = SUPABASE_PROJECT_ID;
   const url = `https://${projectId}.supabase.co/functions/v1/verify-ton-transaction`;
   const deadline = Date.now() + 90_000;
   while (Date.now() < deadline) {
@@ -186,7 +186,7 @@ const waitForIntentOnChain = async (intentId: string, sender?: string | null) =>
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          Authorization: `Bearer ${SUPABASE_PUBLISHABLE_KEY}`,
         },
         body: JSON.stringify({ intent_id: intentId, sender: sender ?? null, quick: true }),
       });
