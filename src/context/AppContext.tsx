@@ -216,6 +216,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         usdt: Number(freshProfile?.usdt_balance ?? profile.usdt_balance ?? 0),
       };
 
+      const dbReward = Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0);
+      const dbRewardExpires = freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null;
+
       setUser((prev) => ({
         ...prev,
         telegramUser,
@@ -223,8 +226,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         siriBalance: balances.siri,
         tonBalance: balances.ton,
         usdtBalance: balances.usdt,
-        rewardBalance: Number(freshProfile?.reward_balance ?? profile.reward_balance ?? 0),
-        rewardExpiresAt: freshProfile?.reward_expires_at ?? (profile as any)?.reward_expires_at ?? null,
+        rewardBalance: dbReward || prev.rewardBalance,
+        rewardExpiresAt: dbReward ? dbRewardExpires : prev.rewardExpiresAt,
         referralCode: freshProfile?.referral_code || profile.referral_code || "",
         isMining: miningState.isMining,
         miningEndTime: miningState.endsAt ? new Date(miningState.endsAt).getTime() : null,
