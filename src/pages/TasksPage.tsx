@@ -7,7 +7,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { completeTaskForTelegram, getReferralSummaryForTelegram, type ReferralSummary } from "@/lib/game-api";
 import SpotlightHero from "@/components/hero/SpotlightHero";
-import AdWatchTask from "@/components/AdWatchTask";
 import { swr } from "@/lib/cache";
 import { artForTask } from "@/lib/task-art";
 
@@ -162,7 +161,6 @@ const TasksPage = () => {
         </TabsList>
 
         <TabsContent value="tasks">
-          <AdWatchTask />
           {loading ? (
             <div className="text-center text-muted-foreground py-8 animate-pulse">Loading tasks...</div>
           ) : availableTasks.length === 0 ? (
