@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import { useTonConnectUI } from "@tonconnect/ui-react";
 import { useApp } from "@/context/AppContext";
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "@/lib/supabase-config";
 import { supabase } from "@/integrations/supabase/client";
 import { payWithStars, STARS_PRICES } from "@/lib/stars";
 import { PaymentError, sendTonPayment } from "@/lib/ton";
