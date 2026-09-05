@@ -512,7 +512,7 @@ export type Database = {
           ton_balance: number | null
           updated_at: string
           usdt_balance: number | null
-          user_id: string
+          user_id: string | null
           username: string | null
           wallet_address: string | null
         }
@@ -532,7 +532,7 @@ export type Database = {
           ton_balance?: number | null
           updated_at?: string
           usdt_balance?: number | null
-          user_id: string
+          user_id?: string | null
           username?: string | null
           wallet_address?: string | null
         }
@@ -552,7 +552,7 @@ export type Database = {
           ton_balance?: number | null
           updated_at?: string
           usdt_balance?: number | null
-          user_id?: string
+          user_id?: string | null
           username?: string | null
           wallet_address?: string | null
         }
